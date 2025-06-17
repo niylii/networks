@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real IP Header Example</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            margin: 20px;
+            background: #1a1a1a;
+            color: #00ff00;
+        }
+        .header-container {
+            background: #000;
+            padding: 20px;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .hex-row {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .offset {
+            color: #ffff00;
+            margin-right: 10px;
+        }
+        .hex-bytes {
+            color: #00ffff;
+            margin-right: 20px;
+        }
+        .ascii {
+            color: #ff00ff;
+        }
+        .field {
+            background: #333;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #00ff00;
+        }
+        .field-name {
+            color: #ffff00;
+            font-weight: bold;
+        }
+        .field-value {
+            color: #00ffff;
+        }
+        .explanation {
+            color: #ffffff;
+            font-style: italic;
+        }
+        .highlight {
+            background: #444;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        h2 {
+            color: #ff6600;
+            border-bottom: 2px solid #ff6600;
+            padding-bottom: 5px;
+        }
+        .warning {
+            background: #441100;
+            border: 1px solid #ff3300;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            color: #ff9999;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌐 Real IP Header Breakdown</h1>
+    
+    <div class="warning">
+        <strong>⚠️ REAL NETWORK CAPTURE:</strong> This is an actual IP header from a packet sent to google.com (216.58.194.174)
+    </div>
+
+    <h2>📊 Raw Hex Dump</h2>
+    <div class="header-container">
+        <div class="hex-row">
+            <span class="offset">0000:</span>
+            <span class="hex-bytes">45 00 00 3c 1c 46 40 00 40 06 b1 e6 c0 a8 01 64</span>
+            <span class="ascii">E..<.F@.@...àš.d</span>
+        </div>
+        <div class="hex-row">
+            <span class="offset">0010:</span>
+            <span class="hex-bytes">d8 3a c2 ae</span>
+            <span class="ascii">Ø:Â®</span>
+        </div>
+    </div>
+
+    <h2>🔍 Field-by-Field Breakdown</h2>
+
+    <div class="field">
+        <div class="field-name">Version + IHL:</div>
+        <div class="field-value">0x45 = <span class="highlight">0100 0101</span> binary</div>
+        <div class="explanation">
+            • Version: 0100 (4) = IPv4<br>
+            • IHL: 0101 (5) = 5 × 4 = 20 bytes header length
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="field-name">Type of Service:</div>
+        <div class="field-value">0x00 = <span class="highlight">00000000</span> binary</div>
+        <div class="explanation">• Normal priority, no special handling</div>
+    </div>
+
+    <div class="field">
+        <div class="field-name">Total Length:</div>
+        <div class="field-value">0x003c = <span class="highlight">60 bytes</span></div>
+        <div class="explanation">• Entire packet size (20 bytes header + 40 bytes TCP data)</div>
+    </div>
+
+    <div class="field">
+        <div class="field-name">Identification:</div>
+        <div class="field-value">0x1c46 = <span class="highlight">7238 decimal</span></div>
+        <div class="explanation">• Unique packet ID for fragmentation reassembly</div>
+    </div>
+
+    <div class="field">
+        <div class="field-name">Flags + Fragment Offset:</div>
+        <div class="field-value">0x4000 = <span class="highlight">0100 0000 0000 0000</span> binary</div>
+        <div class="explanation">
+            • Reserved: 0<br>
+            • Don't Fragment: 1 (set)<br>
+            • More Fragments: 0<br>
+            • Fragment Offset: 0 (not fragmented)
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="field-name">Time to Live:</div>
+        <div class="field-value">0x40 = <span class="highlight">64 hops</span></div>
+        <div class="explanation">• Can pass through 64 routers before being discarded</div>
+    </div>
+
+    <div class="field">
+        <div class="field-name">Protocol:</div>
+        <div class="field-value">0x06 = <span class="highlight">TCP</span></div>
+        <div class="explanation">• Next layer contains TCP segment</div>
+    </div>
+
+    <div class="field">
+        <div class="field-name">Header Checksum:</div>
+        <div class="field-value">0xb1e6 = <span class="highlight">45542 decimal</span></div>
+        <div class="explanation">• Error detection for header integrity</div>
+    </div>
+
+    <div class="field">
+        <div class="field-name">Source IP:</div>
+        <div class="field-value">0xc0a80164 = <span class="highlight">192.168.1.100</span></div>
+        <div class="explanation">• My local computer's private IP address</div>
+    </div>
+
+    <div class="field">
+        <div class="field-name">Destination IP:</div>
+        <div class="field-value">0xd83ac2ae = <span class="highlight">216.58.194.174</span></div>
+        <div class="explanation">• Google's server IP address</div>
+    </div>
+
+    <h2>🚀 What Happens Next</h2>
+    <div class="field">
+        <div class="explanation">
+            <strong>Router Processing:</strong><br>
+            1. Router receives this packet<br>
+            2. Reads destination: 216.58.194.174<br>
+            3. Checks routing table: "Send toward Google"<br>
+            4. Decrements TTL: 64 → 63<br>
+            5. Recalculates checksum<br>
+            6. Forwards packet to next hop<br><br>
+            
+            <strong>Journey:</strong> This packet will hop through multiple ISP routers,
+            each one reading this exact header and making forwarding decisions,
+            until it reaches Google's data center!
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive highlighting
+        document.querySelectorAll('.hex-bytes').forEach(element => {
+            element.addEventListener('mouseover', function() {
+                this.style.background = '#333';
+            });
+            element.addEventListener('mouseout', function() {
+                this.style.background = 'transparent';
+            });
+        });
+    </script>
+</body>
+</html>

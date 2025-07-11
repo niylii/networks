@@ -75,8 +75,3 @@ Understanding the **OSI (Open Systems Interconnection)** model is essential for 
 - **Threat Hunting:** Proactive detection of anomalies and Indicators of Compromise (IOCs)
 
 ---
-## ✅ Summary
-
-Network security is an evolving discipline that combines **technical controls**, **policy enforcement**, and **constant vigilance**. From low-level hardware to high-level applications, each layer presents risks and opportunities for defense. Mastery of networking fundamentals is a core skill for any cybersecurity professional.
-
----
